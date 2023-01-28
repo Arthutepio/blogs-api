@@ -2,13 +2,19 @@ const { User } = require('../models');
 const jwtUtils = require('../utils/jwt');
 const { validateUser } = require('./validations/validateUser');
 
+const findAllUser = async () => {
+  const users = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
+  return users;
+};
+
 const createUser = async ({ displayName, email, password, image }) => {
   const error = validateUser({ displayName, email, password });
   
   const user = await User.findOne({
     where: { email },
   });
-  // console.log('xxx', user);
  
   if (user) {
     return { type: 409, message: 'User already registered' }; 
@@ -28,4 +34,5 @@ const createUser = async ({ displayName, email, password, image }) => {
 
 module.exports = {
   createUser,
+  findAllUser,
 };
