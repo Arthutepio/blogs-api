@@ -14,7 +14,7 @@ const validate = async (email, password) => {
   if (!user) {
     return { type: 400, message: 'Invalid fields' }; 
   }
-console.log('xxx', user.dataValues);
+
   const token = jwtUtils.generateToken(user);
 
   return { type: null, message: token };
