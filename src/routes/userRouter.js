@@ -8,4 +8,6 @@ router.post('/user', userController.createUser);
 
 router.get('/user', authorizationUser, userController.findAllUser);
 
+router.get('/user/:id', authorizationUser, userController.findByIdUser);
+
 module.exports = router;

@@ -9,6 +9,18 @@ const findAllUser = async () => {
   return users;
 };
 
+const findByIdUser = async ({ id }) => {
+  const user = await User.findOne({
+    attributes: ['id', 'displayName', 'email', 'image'],
+    where: { id },
+  });
+
+  if (!user) {
+    return { type: 404, message: 'User does not exist' };
+  }
+  return { type: null, message: user.dataValues };
+};
+
 const createUser = async ({ displayName, email, password, image }) => {
   const error = validateUser({ displayName, email, password });
   
@@ -35,4 +47,5 @@ const createUser = async ({ displayName, email, password, image }) => {
 module.exports = {
   createUser,
   findAllUser,
+  findByIdUser,
 };
