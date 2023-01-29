@@ -20,16 +20,18 @@ module.exports = {
         }, 
         onDelete: 'CASCADE',
       },
-      createdAt: {
-        field: 'published',
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        field: 'updated',
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
+      published: Sequelize.DATE,
+      updated: Sequelize.DATE,
+      // createdAt: {
+      //   field: 'published',
+      //   allowNull: false,
+      //   type: Sequelize.DATE,
+      // },
+      // updatedAt: {
+      //   field: 'updated',
+      //   allowNull: false,
+      //   type: Sequelize.DATE,
+      // },
 
     });
   },
