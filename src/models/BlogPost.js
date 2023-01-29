@@ -6,12 +6,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
       },
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      userId: {
-        type: DataTypes.INTEGER, 
-      },
+      userId: { type: DataTypes.INTEGER, primaryKey: true }, 
       published: DataTypes.DATE,
       updated: DataTypes.DATE,
       // createdAt: {
@@ -24,13 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       // }
     },
     {
-      tableName: 'blogPosts',
+      tableName: 'blog_posts',
+      timestamps: false,
       underscored: true,
     },
   );
 
   BlogPost.associate = (models) => {
-    BlogPost.belongsTo(models.User, { foreignKey: 'user_id', as: 'users' });
+    BlogPost.belongsTo(models.User, { foreignKey: 'userId', as: 'users' });
   };
 
   return BlogPost;
