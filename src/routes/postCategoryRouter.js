@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post('/post', authorizationUser, postCategoryController.createPost);
 
+router.get('/post', authorizationUser, postCategoryController.findAllPost);
+
 module.exports = router;

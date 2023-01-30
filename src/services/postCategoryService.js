@@ -1,4 +1,4 @@
-const { BlogPost, PostCategory, Category } = require('../models');
+const { BlogPost, PostCategory, Category, User } = require('../models');
 
 const validatePost = async (title, content, categoryIds) => {
   if (!title || !content || !categoryIds) {
@@ -8,9 +8,9 @@ const validatePost = async (title, content, categoryIds) => {
   const categories = await Promise.all(categoryIds
     .map((category) => Category.findByPk(category)));
 
-    const IsNotcategory = categories.some((category) => !category);
+    const isCategory = categories.some((category) => !category);
     
-    if (IsNotcategory) {
+    if (isCategory) {
  return { type: 400, message: 'one or more "categoryIds" not found' }; 
   }
 }; // refactor to Joi
@@ -32,6 +32,16 @@ const createPost = async ({ title, content, categoryIds, id }) => {
     return { type: null, message: post.dataValues };
 };
 
+const findAllPost = async () => {
+  const post = await BlogPost.findAll({
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+  console.log(post);
+  return post;
+};
+
 module.exports = {
   createPost,
+  findAllPost,
 };
