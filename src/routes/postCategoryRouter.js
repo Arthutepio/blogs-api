@@ -10,4 +10,5 @@ router.get('/post', authorizationUser, postCategoryController.findAllPost);
 
 router.get('/post/:id', authorizationUser, postCategoryController.findByIdPost);
 
+router.delete('/post/:id', authorizationUser, postCategoryController.deleteByIdPost);
 module.exports = router;

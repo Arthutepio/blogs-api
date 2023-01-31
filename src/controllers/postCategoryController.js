@@ -14,7 +14,6 @@ const findByIdPost = async (req, res) => {
 
 const createPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
-  // console.log(req.user);
   const { id } = req.user;
 const { type, message } = await postCategoryService.createPost({ title, content, categoryIds, id });
 
@@ -22,8 +21,18 @@ if (type !== null) return res.status(type).json({ message });
 return res.status(201).json(message);
 };
 
+const deleteByIdPost = async (req, res) => {
+const { id } = req.params;
+const { id: idUser } = req.user;
+
+const { type, message } = await postCategoryService.deleteByIdPost(id, idUser);
+if (type !== null) return res.status(type).json({ message });
+return res.status(204).end();
+};
+
 module.exports = {
   createPost,
   findAllPost,
   findByIdPost,
+  deleteByIdPost,
 };

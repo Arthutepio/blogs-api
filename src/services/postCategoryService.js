@@ -52,8 +52,19 @@ const findByIdPost = async ({ id }) => {
   return { type: null, message: post };
 };
 
+const deleteByIdPost = async (id, idUser) => {
+  const removePost = await BlogPost.destroy({
+    where: { id },
+  });
+  // if (Number(id) !== idUser) return { type: 401, message: 'Unauthorized user' };
+  if (!removePost) return { type: 404, message: 'Post does not exist' };
+  console.log(Number(removePost), idUser);
+  return { type: null, message: '' };
+};
+
 module.exports = {
   createPost,
   findAllPost,
   findByIdPost,
+  deleteByIdPost,
 };
