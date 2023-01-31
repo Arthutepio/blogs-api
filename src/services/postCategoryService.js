@@ -52,6 +52,21 @@ const findByIdPost = async ({ id }) => {
   return { type: null, message: post };
 };
 
+const updateByIdPost = async ({ title, content, id }) => {
+  if (!title || !content) return { type: 400, message: 'Some required fields are missing' };
+    await BlogPost.update(
+    { title, content, update: Date.now() },
+    { where: { id } },
+    );
+    const update = await BlogPost.findOne({
+      where: { id },
+      include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } }], 
+    });
+
+  return { type: null, message: update };
+};
+
 const deleteByIdPost = async (id, idUser) => {
   const removePost = await BlogPost.destroy({
     where: { id },
@@ -67,4 +82,5 @@ module.exports = {
   findAllPost,
   findByIdPost,
   deleteByIdPost,
+  updateByIdPost,
 };
