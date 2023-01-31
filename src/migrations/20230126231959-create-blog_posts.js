@@ -9,8 +9,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: Sequelize.STRING,
-      content: Sequelize.STRING,
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      content: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       userId: {
         field: 'user_id',
         type: Sequelize.INTEGER,
@@ -18,7 +24,8 @@ module.exports = {
           model: 'users',
           key:'id',
         }, 
-        // onDelete: 'CASCADE',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       published: Sequelize.DATE,
       updated: Sequelize.DATE,

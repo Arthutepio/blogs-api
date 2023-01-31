@@ -21,8 +21,15 @@ if (type !== null) return res.status(type).json({ message });
 return res.status(201).json({ token: message });
 };
 
+const deleteUser = async (req, res) => {
+  const { id } = req.user;
+  const removeUser = await userService.deleteUser({ id });
+  if (removeUser) return res.status(204).end();
+  };
+
 module.exports = {
   createUser,
   findAllUser,
   findByIdUser,
+  deleteUser,
 };

@@ -68,14 +68,16 @@ const updateByIdPost = async ({ title, content, id }) => {
 };
 
 const deleteByIdPost = async (id, idUser) => {
-  const removePost = await BlogPost.destroy({
+  const post = await BlogPost.findOne({ where: { id } });
+  if (!post) return { type: 404, message: 'Post does not exist' };
+  
+  if (Number(id) !== idUser) return { type: 401, message: 'Unauthorized user' };
+  await BlogPost.destroy({
     where: { id },
   });
-  // if (Number(id) !== idUser) return { type: 401, message: 'Unauthorized user' };
-  if (!removePost) return { type: 404, message: 'Post does not exist' };
-  console.log(Number(removePost), idUser);
+  
   return { type: null, message: '' };
-};
+}; // falta validar o caso de sucesso
 
 module.exports = {
   createPost,
