@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, PostCategory, Category, User } = require('../models');
 
 const validatePost = async (title, content, categoryIds) => {
@@ -79,10 +80,27 @@ const deleteByIdPost = async (id, idUser) => {
   return { type: null, message: '' };
 }; // falta validar o caso de sucesso
 
+const searchPost = async (q) => {
+  const search = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.substring]: q } },
+        { content: { [Op.substring]: q } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return search;
+};
+
 module.exports = {
   createPost,
   findAllPost,
   findByIdPost,
   deleteByIdPost,
   updateByIdPost,
+  searchPost,
 };
