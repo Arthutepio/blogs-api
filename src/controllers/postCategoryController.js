@@ -1,4 +1,5 @@
 const { postCategoryService } = require('../services');
+const { decodeToken } = require('../utils/jwt');
 
 const findAllPost = async (req, res) => {
 const post = await postCategoryService.findAllPost();
@@ -33,13 +34,14 @@ const updateByIdPost = async (req, res) => {
 };
 
 const deleteByIdPost = async (req, res) => {
+  const { authorization } = req.headers;
+  const userId = decodeToken(authorization);
   const { id } = req.params;
-  const { id: idUser } = req.user;
 
-  const { type, message } = await postCategoryService.deleteByIdPost(id, idUser);
+  const { type, message } = await postCategoryService.deleteByIdPost(id, userId.id);
   if (type !== null) return res.status(type).json({ message });
-  return res.status(204).json(message);
-}; // falta validar o caso de sucesso
+  return res.status(204).end();
+};
 
 const searchPost = async (req, res) => {
   const { q } = req.query;
