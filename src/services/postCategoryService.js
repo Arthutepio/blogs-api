@@ -14,7 +14,7 @@ const validatePost = async (title, content, categoryIds) => {
     if (isCategory) {
  return { type: 400, message: 'one or more "categoryIds" not found' }; 
   }
-}; // refactor to Joi
+};
 
 const createPost = async ({ title, content, categoryIds, id }) => {  
   const validated = await validatePost(title, content, categoryIds);
@@ -48,7 +48,7 @@ const findByIdPost = async ({ id }) => {
     include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
     { model: Category, as: 'categories', through: { attributes: [] } }], 
   });
-  console.log(post);
+
   if (!post) return { type: 404, message: 'Post does not exist' };
   return { type: null, message: post };
 };
@@ -71,14 +71,14 @@ const updateByIdPost = async ({ title, content, id }) => {
 const deleteByIdPost = async (id, userId) => {
   const post = await BlogPost.findOne({ where: { id } });
   if (!post) return { type: 404, message: 'Post does not exist' };
-  console.log(post.dataValues.userId);
+
   if (Number(post.dataValues.userId) !== userId) return { type: 401, message: 'Unauthorized user' };
   await BlogPost.destroy({
     where: { id },
   });
   
   return { type: null, message: '' };
-}; // falta validar o caso de sucesso
+};
 
 const searchPost = async (q) => {
   const search = await BlogPost.findAll({

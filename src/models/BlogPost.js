@@ -13,14 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       userId: { type: DataTypes.INTEGER, primaryKey: true }, 
       published: DataTypes.DATE,
       updated: DataTypes.DATE,
-      // createdAt: {
-      //   allowNull: false,
-      //   type: DataTypes.DATE,
-      // },
-      // updatedAt: {
-      //   allowNull: false,
-      //   type: DataTypes.DATE,
-      // }
     },
     {
       tableName: 'blog_posts',

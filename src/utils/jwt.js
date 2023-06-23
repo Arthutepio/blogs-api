@@ -24,7 +24,7 @@ const decodeToken = (token) => {
     const result = jwt.verify(token, TOKEN_SECRET);
     return result;
   } catch (err) {
-    console.log(err.message);
+
     throw new Error('Invalid assignature');
   }
 };
